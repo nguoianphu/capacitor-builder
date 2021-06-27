@@ -44,8 +44,6 @@ jobs:
        MY_ZIP_PASSWORD: ${{ secrets.MY_ZIP_PASSWORD }}
       run: |
         cd $GITHUB_WORKSPACE
-        echo "Remove the default www and replace it by your zipped"
-        rd /s /q www
         7z x -p${MY_ZIP_PASSWORD} www.zip
         npm install @capacitor/core @capacitor/cli @capacitor/android
 
@@ -55,11 +53,11 @@ jobs:
         cd www
         chmod +x gradlew
       
-    - name: Build with Gradle - clean
-      if: runner.os != 'windows'
-      run: |
-        cd www
-        ./gradlew clean
+    # - name: Build with Gradle - clean
+      # if: runner.os != 'windows'
+      # run: |
+        # cd www
+        # ./gradlew clean
       
     - name: Build with Gradle - Debug APK
       if: runner.os != 'windows'
