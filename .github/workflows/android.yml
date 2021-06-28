@@ -44,8 +44,7 @@ jobs:
       env:
        MY_ZIP_PASSWORD: ${{ secrets.MY_ZIP_PASSWORD }}
       run: |
-        cd $GITHUB_WORKSPACE
-        7z x -p${MY_ZIP_PASSWORD} www.zip
+        7z x -p$MY_ZIP_PASSWORD www.zip
         npm install @capacitor/core @capacitor/cli @capacitor/android
 
     - name: Grant execute permission for gradlew
