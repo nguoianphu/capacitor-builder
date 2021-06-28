@@ -109,8 +109,9 @@ jobs:
             -alias my-android-release-key \
             -file $GITHUB_WORKSPACE/www/keys/my-android-release-upload-certificat.pem
         echo "Sign the APK with the key we just created"
-
         cd $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS
+        pwd
+        ls -la
         echo "Align the unsigned APK using zipalign"
         ./zipalign -v 4 \
             $GITHUB_WORKSPACE/www/app/build/outputs/apk/release/app-release-unsigned.apk \
