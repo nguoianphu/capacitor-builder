@@ -87,6 +87,7 @@ jobs:
         cd $GITHUB_WORKSPACE/www
         echo "Get latest Android build tool version"
         export BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)
+        echo "BUILD_TOOLS=$BUILD_TOOLS"
         echo "BUILD_TOOLS=$BUILD_TOOLS" >> $GITHUB_ENV
         if [ ! -n "${MY_ZIP_PASSWORD}" ]; then
             export MY_ZIP_PASSWORD="Test123"
@@ -136,11 +137,11 @@ jobs:
     - name: Create tag
       if: runner.os != 'windows'
       run: |
-        cd $GITHUB_WORKSPACE/www
+        cd $GITHUB_WORKSPACE
         export DATE=$(date +'DATE_%Y_%m_%d_%H%M%S')
         export GIT_COMMIT=COMMIT_$(git log --format=%h -1)
-        export APP_NAME=$(cat settings.gradle | grep rootProject.name | cut -d '"' -f2)
-        export APP_VERSION_CURRENT=$(cat app/build.gradle | grep versionName | cut -d '"' -f2)
+        export APP_NAME=$(cat www/app/build.gradle | grep applicationId  | cut -d '"' -f2 | grep -o '[^.]*$')
+        export APP_VERSION_CURRENT=$(cat www/app/build.gradle | grep versionName| cut -d '"' -f2)
         export APK_NAME=${APP_NAME}-${APP_VERSION_CURRENT}-${DATE}-${GIT_COMMIT}
         export APK_NAME=${APK_NAME// /}
         export TAG=${TAG:-${APK_NAME}}
