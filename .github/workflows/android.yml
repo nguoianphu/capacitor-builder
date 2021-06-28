@@ -85,7 +85,8 @@ jobs:
        BUILD_TOOLS: ${{env.BUILD_TOOLS}}
       run: |
         cd $GITHUB_WORKSPACE/www
-        export BUILD_TOOLS=$(cat app/build.gradle | grep buildToolsVersion | cut -d '"' -f2)
+        echo "Get latest Android build tool version"
+        export BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)
         echo "BUILD_TOOLS=$BUILD_TOOLS" >> $GITHUB_ENV
         if [ ! -n "${MY_ZIP_PASSWORD}" ]; then
             export MY_ZIP_PASSWORD="Test123"
@@ -110,8 +111,6 @@ jobs:
             -file $GITHUB_WORKSPACE/www/keys/my-android-release-upload-certificat.pem
         echo "Sign the APK with the key we just created"
         cd $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS
-        pwd
-        ls -la
         echo "Align the unsigned APK using zipalign"
         ./zipalign -v 4 \
             $GITHUB_WORKSPACE/www/app/build/outputs/apk/release/app-release-unsigned.apk \
