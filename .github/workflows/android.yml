@@ -251,15 +251,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-      - uses: actions/upload-artifact@v2
-        with:
-         name: CapacitorAPK
-         retention-days: 3
-         path: |
-          ./android/app/build/outputs/apk/debug/
-          ./android/app/build/outputs/apk/release/
-          ./android/app/build/outputs/bundle/release/
-          
+    - uses: actions/upload-artifact@v2
+      with:
+       name: CapacitorAPK
+       retention-days: 3
+       path: |
+        ./android/app/build/outputs/apk/debug/
+        ./android/app/build/outputs/apk/release/
+        ./android/app/build/outputs/bundle/release/
+        
     - uses: actions/upload-artifact@v2
       with:
        name: CordovaAPK
