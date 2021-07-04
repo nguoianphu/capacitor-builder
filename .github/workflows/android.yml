@@ -12,7 +12,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -58,22 +57,12 @@ jobs:
         rm -rf www || true
         sudo apt-get install -y p7zip-full || true
         7z x -p${MY_ZIP_PASSWORD} www.zip
+        echo "zip web package"
+        7z a -tzip -p${MY_ZIP_PASSWORD} web.zip -r www
         npm install
         sudo npm install -g cordova@latest
         npm install @capacitor/core @capacitor/cli @capacitor/android
         
-
-    - name: Extract ZIP www with password on Windows
-      if: runner.os == 'windows'
-      env:
-       MY_ZIP_PASSWORD: ${{ secrets.MY_ZIP_PASSWORD }}
-      run: |
-        7z x -p$MY_ZIP_PASSWORD www.zip
-        echo "zip web package"
-        7z a -tzip -p${MY_ZIP_PASSWORD} web.zip -r www
-        npm intall
-        npm install @capacitor/core @capacitor/cli @capacitor/android
-
     - name: Using Capacitor to generate android project
       run: |
        npx cap init --web-dir www
@@ -221,18 +210,6 @@ jobs:
         git tag -l
         echo "TAG=$TAG" >> $GITHUB_ENV
         
-    - name: Create tag
-      if: runner.os == 'windows'
-      run: |
-        cd $GITHUB_WORKSPACE/android
-        $DATE=$(Get-Date -Format "yyyy_MM_dd_Hms")
-        $GIT_COMMIT="COMMIT_$(git log --format=%h -1)"
-        $APP_NAME=$(((cat settings.gradle | Select-String rootProject.name ) -Split '"')[1])
-        $APP_VERSION_CURRENT=$(((cat app/build.gradle | Select-String versionName) -Split '"'))[1]
-        $APK_NAME=${APP_NAME}+${APP_VERSION_CURRENT}+${DATE}+${GIT_COMMIT}
-        git tag ${APK_NAME}
-        git tag -l
-        echo "TAG=$APK_NAME" >> $env:GITHUB_ENV
         
     - name: Release
       if: runner.os != 'windows'
