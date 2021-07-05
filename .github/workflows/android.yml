@@ -34,7 +34,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '16'
         
     
     - name: set up JDK 8
@@ -60,8 +60,8 @@ jobs:
         echo "zip web package"
         7z a -tzip -p${MY_ZIP_PASSWORD} web.zip -r www
         npm install
-        npm install -g cordova@latest
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npm install -g cordova
+        npm install @capacitor/core @capacitor/cli @capacitor/android cordova
         
     - name: Using Capacitor to generate android project
       run: |
@@ -100,6 +100,7 @@ jobs:
       run: |
        cd www
        # Add android platform to the project and remember that in config.xml & package.json.
+       cordova platform rm android || true
        cordova platform add android
        # Check to see if your system is configured for building android platform.
        cordova requirements android
