@@ -208,13 +208,13 @@ jobs:
         cd $GITHUB_WORKSPACE
         export DATE=$(date +'DATE_%Y_%m_%d_%H%M%S')
         export GIT_COMMIT=COMMIT_$(git log --format=%h -1)
-        export GIT_COMMIT_MGS=COMMIT_$(git log --format=%s -1)
+        export GIT_COMMIT_MGS=$(git log --format=%s -1)
         export APP_NAME=$(cat android/app/build.gradle | grep applicationId  | cut -d '"' -f2 | grep -o '[^.]*$')
         export APP_VERSION_CURRENT=$(cat android/app/build.gradle | grep versionName| cut -d '"' -f2)
         export APK_NAME=${APP_NAME}-${APP_VERSION_CURRENT}-${DATE}-${GIT_COMMIT}
         export APK_NAME=${APK_NAME// /}
         export TAG=${TAG:-${APK_NAME}}
-        git tag ${TAG// /} -a $GIT_COMMIT_MGS
+        git tag -a ${TAG// /} -m $GIT_COMMIT_MGS
         git tag -l
         echo "TAG=$TAG" >> $GITHUB_ENV
         
