@@ -60,7 +60,7 @@ jobs:
         echo "zip web package"
         7z a -tzip -p${MY_ZIP_PASSWORD} web.zip -r www
         npm install
-        sudo npm install -g cordova@latest
+        npm install -g cordova@latest
         npm install @capacitor/core @capacitor/cli @capacitor/android
         
     - name: Using Capacitor to generate android project
