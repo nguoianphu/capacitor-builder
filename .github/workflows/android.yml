@@ -214,9 +214,11 @@ jobs:
         export APK_NAME=${APP_NAME}-${APP_VERSION_CURRENT}-${DATE}-${GIT_COMMIT}
         export APK_NAME=${APK_NAME// /}
         export TAG=${TAG:-${APK_NAME}}
-        git tag -a ${TAG// /} -m "$GIT_COMMIT_MGS"
+        # git tag -a ${TAG// /} -m "$GIT_COMMIT_MGS"
+        git tag ${TAG// /}
         git tag -l
         echo "TAG=$TAG" >> $GITHUB_ENV
+        echo "GIT_COMMIT_MGS=$GIT_COMMIT_MGS" >> $GITHUB_ENV
         
         
     - name: Release
@@ -224,6 +226,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{env.TAG}}
+        body: ${{env.GIT_COMMIT_MGS}}
         files: |
           ./web.zip
           ./keys.zip
