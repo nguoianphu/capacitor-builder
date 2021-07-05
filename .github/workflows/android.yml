@@ -64,6 +64,8 @@ jobs:
         npm install @capacitor/core @capacitor/cli @capacitor/android cordova
         
     - name: Using Cordova to build app
+      env:
+       MY_ZIP_PASSWORD: ${{ secrets.MY_ZIP_PASSWORD }}
       run: |
        cd www
        # Add android platform to the project and remember that in config.xml & package.json.
