@@ -214,7 +214,7 @@ jobs:
         export APK_NAME=${APP_NAME}-${APP_VERSION_CURRENT}-${DATE}-${GIT_COMMIT}
         export APK_NAME=${APK_NAME// /}
         export TAG=${TAG:-${APK_NAME}}
-        git tag -a ${TAG// /} -m $GIT_COMMIT_MGS
+        git tag -a ${TAG// /} -m "$GIT_COMMIT_MGS"
         git tag -l
         echo "TAG=$TAG" >> $GITHUB_ENV
         
